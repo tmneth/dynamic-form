@@ -5,15 +5,409 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Survey</title>
+    <title>Forma</title>
   </head>
   <body>
-    <main>
-      <form action="POST">
-        <button>Submit</button>
+    <main class="main">
+      <form class="form" name="myform" id="regForm">
+        <!-- indicates the steps of the form: -->
+        <div class="steps">
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+        </div>
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">1</div>
+            Bendra informacija
+          </h2>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="first-name" class="req-input">Vardas</label>
+              <input
+                name="Vardas"
+                id="first-name"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="middle-name">Antrasis vardas</label>
+              <input
+                name="Antrasis vardas"
+                id="middle-name"
+                type="text"
+                class="data-input"
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="primary-last-name" class="req-input">Pavardė</label>
+              <input
+                name="Pavardė"
+                id="primary-last-name"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="secondary-last-name">Ankstesnė pavardė</label>
+              <input
+                name="Ankstesnė pavardė"
+                id="secondary-last-name"
+                type="text"
+                class="data-input"
+              />
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <label for="user-ssn" class="req-input">Asmens kodas</label>
+            <input
+              name="Asmens kodas"
+              id="user-ssn"
+              type="text"
+              class="data-input ssn"
+              maxlength="11"
+              required
+            />
+            <span class="error-message"></span>
+          </div>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="phone-num" class="req-input">Telefono numeris</label>
+              <input
+                name="Telefono numeris"
+                id="phone-num"
+                type="tel"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="mail-addr" class="req-input">El. pašto adresas</label>
+              <input
+                name="El. pašto adresas"
+                id="mail-addr"
+                type="email"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+        </section>
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">2</div>
+            Adresas
+          </h2>
+
+          <div class="input-wrapper">
+            <label for="address" class="req-input">Adresas</label>
+            <input
+              name="Adresas"
+              id="address"
+              type="text"
+              class="data-input"
+              required
+            />
+            <span class="error-message"></span>
+          </div>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="country" class="req-input">Šalis</label>
+              <input
+                name="Šalis"
+                id="country"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="city" class="req-input">Miestas</label>
+              <input
+                name="Miestas"
+                id="city"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="region">Regionas</label>
+              <input
+                name="Regionas"
+                id="region"
+                type="text"
+                class="data-input"
+              />
+            </div>
+            <div class="input-wrapper">
+              <label for="zip" class="req-input">Pašto kodas</label>
+              <input
+                name="Pašto kodas"
+                id="zip"
+                type="number"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">3</div>
+            Šeimyninė padėtis
+          </h2>
+          <div class="input-wrapper" id="maritial-status">
+            <label for="marstatus" class="req-input">Vedybinė padėtis</label>
+            <select
+              name="Vedybinė padėtis"
+              aria-labelledby="maritial-status"
+              id="marstatus"
+              type="select-one"
+              class="data-input"
+              name="master"
+              onchange="getPartner();"
+              required
+            >
+              <option value="nevedęs">Nevedęs</option>
+              <option value="vedęs">Vedęs</option>
+              <option value="išsiskyręs">Išsiskyręs</option>
+            </select>
+          </div>
+
+          <div class="buttons">
+            <button type="button" onclick="appendKid();" class="append-child">
+              Pridėti vaiką
+            </button>
+            <button
+              type="button"
+              onclick="removeKid();"
+              class="append-child"
+              id="remove-kid"
+            >
+              Pašalinti vaiką
+            </button>
+          </div>
+        </section>
+
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">4</div>
+            Išsilavinimas
+          </h2>
+
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="degree-type" class="req-input"
+                >Išsilavinimo lygis</label
+              >
+              <select
+                name="Išsilavinimo lygis"
+                aria-labelledby="degree-type"
+                type="text"
+                class="data-input"
+                required
+              >
+                <option value="primary">Pagrindinis</option>
+                <option value="secondary">Vidurinis</option>
+                <option value="professional">Profesinis</option>
+                <option value="higher">Aukštasis / Kolegijinis</option>
+                <option value="highest">Aukštasis / Universitetinis</option>
+              </select>
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="school-name" class="req-input">Mokslo įstaiga</label>
+              <input
+                name="Mokslo įstaiga"
+                id="school-name"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label for="qualification" class="req-input">Kvalifikacija</label>
+              <input
+                name="Kvalifikacija"
+                id="qualification"
+                type="text"
+                class="data-input"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+            <div class="input-wrapper">
+              <label for="finishing-date" class="req-input" required
+                >Užbaigimo metai</label
+              >
+              <input
+                name="Užbaigimo metai"
+                id="finishing-date"
+                type="date"
+                class="data-input"
+                min="2000-01-01"
+                max="2025-12-31"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">5</div>
+            Aukštasis išsilavinimas
+          </h2>
+          <fieldset class="optional-section" id="optional-uni-section">
+            <legend class="req-input">
+              Ar šiuo metu jūs studijuojate universitete?
+            </legend>
+            <div class="group-choice">
+              <input
+                name="Šiuo metu jūs studijuojate universitete"
+                id="positive"
+                type="radio"
+                onclick="showEducationFields();"
+                value="Taip"
+              /><label for="positive">Taip</label>
+              <input
+                id="negative"
+                type="radio"
+                name="Šiuo metu jūs studijuojate universitete"
+                onclick="hideEducationFields();"
+                value="Ne"
+                checked
+              /><label for="negative">Ne</label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">6</div>
+            Profesinė padėtis
+          </h2>
+          <fieldset class="optional-section" id="optional-work-section">
+            <legend class="req-input">Ar Jūs dirbate šiuo metu?</legend>
+            <div class="group-choice">
+              <input
+                id="positive"
+                type="radio"
+                name="Ar Jūs dirbate šiuo metu?"
+                onclick="showWorkFields();"
+                value="Taip"
+              /><label for="positive">Taip</label>
+              <input
+                id="negative"
+                type="radio"
+                name="Ar Jūs dirbate šiuo metu?"
+                onclick="hideWorkFields();"
+                value="Ne"
+                checked
+              /><label for="negative">Ne</label>
+            </div>
+          </fieldset>
+          <div id="unemployment-reasons">
+            <div class="input-wrapper">
+              <label for="unemployment-reason" class="req-input"
+                >Nedarbo priežastis</label
+              >
+              <textarea
+                name="Nedarbo priežastis"
+                id="unemployment-reason"
+              ></textarea>
+              <span class="error-message"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="data-group">
+          <h2 class="group-heading">
+            <div class="group-num">7</div>
+            Links
+          </h2>
+
+          <div class="input-wrapper">
+            <label for="linkedin-url" class="req-input">LinkedIn</label>
+            <input
+              name="LinkedIn"
+              id="linkedin-url"
+              type="text"
+              class="data-input"
+              required
+            />
+            <span class="error-message"></span>
+          </div>
+          <div class="input-wrapper">
+            <label for="github-url" class="req-input">GitHub</label>
+            <input
+              name="GitHub"
+              id="github-url"
+              type="text"
+              class="data-input"
+              required
+            />
+            <span class="error-message"></span>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="portfolio-url">Portfolio</label>
+            <input
+              name="Portfolio"
+              id="portfolio-url"
+              type="text"
+              class="data-input"
+            />
+            <span class="error-message"></span>
+          </div>
+          <div class="input-wrapper">
+            <label for="other-url">Kitas URL</label>
+            <input
+              name="Kitas URL"
+              id="other-url"
+              type="text"
+              class="data-input"
+            />
+            <span class="error-message"></span>
+          </div>
+        </section>
+
+        <section class="data-group">
+          <pre id="json"></pre>
+        </section>
+
+        <div class="nav-buttons">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+            Previous
+          </button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
       </form>
     </main>
-
     <script src="main.js"></script>
   </body>
 </html>
