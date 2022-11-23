@@ -698,6 +698,10 @@ const setUserGender = (userGender) => {
 };
 
 const getPartner = () => {
+  if (document.getElementById("partner-details")) {
+    document.getElementById("partner-details").remove();
+  }
+
   let statusSelect = document.getElementById("marstatus");
   let selectedMarStatus =
     statusSelect.options[statusSelect.selectedIndex].value;
@@ -734,8 +738,6 @@ const getPartner = () => {
 </div>
 `;
     document.getElementById("maritial-status").appendChild(div);
-  } else if (document.getElementById("partner-details")) {
-    document.getElementById("partner-details").remove();
   }
 };
 
