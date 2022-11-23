@@ -41,6 +41,10 @@ main {
   align-self: flex-start;
 }
 
+fieldset {
+  border-radius: var(--second-radius);
+}
+
 #remove-kid {
   display: none;
 }
@@ -376,4 +380,17 @@ textarea.invalid {
     width: 100%;
     overflow: scroll;
   }
+  fieldset {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .buttons > button {
+    font-size: 0.9rem;
+  }
+}
+
+#most-recent-degree {
+  width: 100% !important;
+  /* background-color: red; */
+  margin-top: -2rem;
 }

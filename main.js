@@ -137,7 +137,6 @@ const validateDate = (field) => {
 
   var maxDateParts = field.max.split("-");
   var maxYear = parseInt(maxDateParts[0], 10);
-  console.log(maxYear);
 
   var minDateParts = field.min.split("-");
   var minYear = parseInt(minDateParts[0], 10);
@@ -196,7 +195,6 @@ const validateChoice = (field) => {
 
 const getValidationData = (field) => {
   if (field.classList.contains("ssn")) return validateId(field);
-  console.log(field.classList.contains("ssn"));
   switch (field.type) {
     case "text":
     case "textarea":
@@ -501,6 +499,9 @@ const showWorkFields = () => {
     "work-experience-label"
   );
 
+  let userGender =
+    data[sections[0]]["lytis"] === "vyras" ? "Tėvystės" : "Motinystės";
+
   var workSection = document.createElement("div");
   workSection.id = `user-work-experience`;
   workSection.classList.add("hidden-wrapper");
@@ -577,6 +578,33 @@ const showWorkFields = () => {
     <span class="error-message"></span>
   </div>
 </div>
+<div class="input-group">
+  <div class="input-wrapper">
+    <label for="leave-start-date"
+      >${userGender} atostogų pradžia</label
+    >
+    <input
+      min="1950-01-01"
+      max="2022-12-31"
+      name="${userGender} atostogų pradžia"
+      id="leave-start-date"
+      type="date"
+      class="data-input"
+    />
+    <span class="error-message"></span>
+  </div>
+  <div class="input-wrapper">
+    <label for="leave-end-date">${userGender} atostogų pabaiga</label>
+    <input
+      min="1950-01-01"
+      max="2027-12-31"
+      name="${userGender} atostogų pabaiga"
+      id="leave-end-date"
+      type="date"
+      class="data-input"
+    />
+    <span class="error-message"></span>
+  </div>
   `;
   document
     .getElementById("optional-work-section")
@@ -604,7 +632,6 @@ const appendKid = () => {
 
   var div = document.createElement("div");
   div.id = `kid-${kidsNum}`;
-  console.log(kidsNum);
   div.innerHTML = `
   <div class="input-group hidden-entry">
   <div class="input-wrapper">
@@ -672,7 +699,7 @@ const setUserGender = (userGender) => {
 
 const getPartner = () => {
   let statusSelect = document.getElementById("marstatus");
-  var selectedMarStatus =
+  let selectedMarStatus =
     statusSelect.options[statusSelect.selectedIndex].value;
 
   if (selectedMarStatus === "vedęs" || selectedMarStatus === "ištekėjusi") {
@@ -709,6 +736,60 @@ const getPartner = () => {
     document.getElementById("maritial-status").appendChild(div);
   } else if (document.getElementById("partner-details")) {
     document.getElementById("partner-details").remove();
+  }
+};
+
+const getPriorEducation = () => {
+  if (document.getElementById("most-recent-degree")) {
+    document.getElementById("most-recent-degree").remove();
+  }
+
+  let degreeLevel = document.getElementById("degree-level");
+  let selectedDegree = degreeLevel.options[degreeLevel.selectedIndex].value;
+
+  if (
+    selectedDegree === "kolegijinis" ||
+    selectedDegree === "universitetinis" ||
+    selectedDegree === "profesinis"
+  ) {
+    var div = document.createElement("div");
+    div.id = "most-recent-degree";
+    div.innerHTML = `
+  <div class="input-group hidden-entry">
+  <div class="input-wrapper">
+  <label for="most-recent-degree-type" class="req-input">Studijų pakopa</label>
+  <select
+    name="Studijų pakopa"
+    id="most-recent-degree-type"
+    type="text"
+    class="data-input"
+    required
+  >
+    <option value="primary">Bakalaurantūra</option>
+    <option value="secondary">Magistrantūra</option>
+    <option value="professional">Meno aspirantūra</option>
+    <option value="higher">Rezidentūra</option>
+    <option value="highest">Doktorantūra</option>
+  </select>
+  <span class="error-message"></span>
+</div>
+<div class="input-wrapper">
+<label for="highest-degree-type">Mokslo laipsnis</label>
+<select
+  name="Mokslo laipsnis"
+  id="highest-degree-type"
+  type="text"
+  class="data-input"
+>
+  <option value="phd">Daktaras</option>
+  <option value="habilitation">Habilituotas daktaras</option>
+</select>
+<span class="error-message"></span>
+</div>
+</div>
+</div>
+`;
+    document.getElementById("degree-finishing-date").appendChild(div);
   }
 };
 

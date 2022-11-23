@@ -208,7 +208,7 @@
           </div>
         </section>
 
-        <section class="data-group">
+        <section class="data-group" id="degree-finishing-date">
           <h2 class="group-heading">
             <div class="group-num">4</div>
             Išsilavinimas
@@ -216,21 +216,24 @@
 
           <div class="input-group">
             <div class="input-wrapper">
-              <label for="degree-type" class="req-input"
+              <label for="degree-level" class="req-input"
                 >Išsilavinimo lygis</label
               >
               <select
                 name="Išsilavinimo lygis"
-                aria-labelledby="degree-type"
+                id="degree-level"
                 type="text"
                 class="data-input"
+                onchange="getPriorEducation();"
                 required
               >
-                <option value="primary">Pagrindinis</option>
-                <option value="secondary">Vidurinis</option>
-                <option value="professional">Profesinis</option>
-                <option value="higher">Aukštasis / Kolegijinis</option>
-                <option value="highest">Aukštasis / Universitetinis</option>
+                <option value="pagrindinis">Pagrindinis</option>
+                <option value="vidurinis">Vidurinis</option>
+                <option value="profesinis">Profesinis</option>
+                <option value="kolegijinis">Aukštasis / Kolegijinis</option>
+                <option value="universitetinis">
+                  Aukštasis / Universitetinis
+                </option>
               </select>
               <span class="error-message"></span>
             </div>
