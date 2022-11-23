@@ -301,7 +301,13 @@ input[type="radio"] {
 
 .step.finish {
   background-color: var(--first-color);
-  opacity: 1;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.25) 1px,
+    transparent 1px,
+    transparent 6px
+  ) !important;
 }
 
 input.invalid,

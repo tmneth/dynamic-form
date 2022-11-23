@@ -295,11 +295,16 @@ let currentTab = 0;
 showTab(currentTab);
 
 function showTab(n) {
-  let sections = document.getElementsByClassName("data-group");
-  sections[n].style.display = "flex";
+  let formSections = document.getElementsByClassName("data-group");
+  if (n === formSections.length) return;
+  formSections[n].style.display = "flex";
 
-  if (n === sections.length) return;
-
+  if (n < formSections.length - 1) {
+    document.getElementsByClassName("group-heading")[n].innerHTML = `
+    <div class="group-num">${currentTab + 1}</div>  
+    ${sections[currentTab]}
+      `;
+  }
   document.getElementById("nextBtn").style.display = "inline";
   document.getElementById("nextBtn").innerHTML = "Kitas";
   document.getElementById("nextBtn").type = "button";
@@ -310,10 +315,10 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
 
-  if (n == sections.length - 1) {
+  if (n == formSections.length - 1) {
     document.getElementById("nextBtn").style.display = "none";
     document.getElementById("nextBtn").type = "submit";
-  } else if (n == sections.length - 2) {
+  } else if (n == formSections.length - 2) {
     document.getElementById("nextBtn").innerHTML = "Patvirtinti";
   }
 
@@ -396,11 +401,11 @@ const showEducationFields = () => {
       class="data-input"
       required
     >
-      <option value="primary">Bakalaurantūra</option>
-      <option value="secondary">Magistrantūra</option>
-      <option value="professional">Meno aspirantūra</option>
-      <option value="higher">Rezidentūra</option>
-      <option value="highest">Doktorantūra</option>
+      <option>Bakalaurantūra</option>
+      <option>Magistrantūra</option>
+      <option>Meno aspirantūra</option>
+      <option>Rezidentūra</option>
+      <option>Doktorantūra</option>
     </select>
     <span class="error-message"></span>
   </div>
@@ -528,11 +533,11 @@ const showWorkFields = () => {
       class="data-input"
       required
     >
-      <option value="primary">0-2 metai</option>
-      <option value="secondary">2-5 metai</option>
-      <option value="professional">5-7 metai</option>
-      <option value="higher">7-9 metai</option>
-      <option value="highest">9+ metai</option>
+      <option>0-2 metai</option>
+      <option>2-5 metai</option>
+      <option>5-7 metai</option>
+      <option>7-9 metai</option>
+      <option>9+ metai</option>
     </select>
   </div>
 </div>
@@ -546,9 +551,9 @@ const showWorkFields = () => {
       class="data-input"
       required
     >
-      <option value="primary">Vadovas</option>
-      <option value="secondary">Specialistas</option>
-      <option value="professional">Individuali veikla</option>
+      <option>Vadovas</option>
+      <option>Specialistas</option>
+      <option>Individuali veikla</option>
     </select>
     <span class="error-message"></span>
   </div>
@@ -561,19 +566,19 @@ const showWorkFields = () => {
       class="data-input"
       required
     >
-      <option value="primary">Teisė</option>
-      <option value="secondary">Viešasis sektorius</option>
-      <option value="professional">Sveikatos apsauga</option>
-      <option value="primary">Farmacija</option>
-      <option value="secondary">Pramonė / Gamyba</option>
-      <option value="professional">IT</option>
-      <option value="primary">Prekyba</option>
-      <option value="secondary">Krašto apsauga</option>
-      <option value="professional">Vidaus reikalų sistema</option>
-      <option value="primary">Klientų aptarnavimas ir paslaugos</option>
-      <option value="secondary">Transportas</option>
-      <option value="professional">Kultūra ir pramogos</option>
-      <option value="professional">Švietimas / Studijos</option>
+      <option>Teisė</option>
+      <option>Viešasis sektorius</option>
+      <option>Sveikatos apsauga</option>
+      <option>Farmacija</option>
+      <option>Pramonė / Gamyba</option>
+      <option>IT</option>
+      <option>Prekyba</option>
+      <option>Krašto apsauga</option>
+      <option>Vidaus reikalų sistema</option>
+      <option>Klientų aptarnavimas ir paslaugos</option>
+      <option>Transportas</option>
+      <option>Kultūra ir pramogos</option>
+      <option>Švietimas / Studijos</option>
     </select>
     <span class="error-message"></span>
   </div>
