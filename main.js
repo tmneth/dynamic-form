@@ -130,7 +130,24 @@ const validateSelect = (field) => {
 const validateDate = (field) => {
   const val = field.value.trim();
 
-  if (val === "" && field.required) {
+  var parts = field.value.split("-");
+  var month = parseInt(parts[1], 10);
+  var year = parseInt(parts[0], 10);
+
+  var maxDateParts = field.max.split("-");
+  var maxYear = parseInt(maxDateParts[0], 10);
+  console.log(maxYear);
+
+  var minDateParts = field.min.split("-");
+  var minYear = parseInt(minDateParts[0], 10);
+
+  if (
+    (val === "" && field.required) ||
+    year < minYear ||
+    year > maxYear ||
+    month == 0 ||
+    month > 12
+  ) {
     return {
       isValid: false,
       message: "Pasirinkite tinkamą datą",
@@ -299,11 +316,12 @@ function showTab(n) {
   if (n == 7) {
     document.getElementById("nextBtn").type = "submit";
     document.getElementById("nextBtn").style.display = "none";
+    fixStepIndicator(n);
   } else if (n == 6) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").innerHTML = "Patvirtinti";
     fixStepIndicator(n);
   } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").innerHTML = "Kitas";
     fixStepIndicator(n);
   }
   // ... and run a function that displays the correct step indicator:
@@ -365,7 +383,7 @@ function fixStepIndicator(n) {
     x[i].className = x[i].className.replace(" active", "");
   }
   //... and adds the "active" class to the current step:
-  x[n].className += " active";
+  if (x[n]) x[n].className += " active";
 }
 
 // ============== OPTIONAL FIELDS (EDUCATION & WORK) ==============
@@ -423,14 +441,14 @@ function showEducationFields() {
       <div class="input-group">
         <div class="input-wrapper">
           <label for="education-start-year" class="req-input">Pradžios metai</label>
-          <input name="Pradžios metai" id="education-start-year" type="date" class="data-input" required />
+          <input min="1950-01-01" max="2022-12-31" name="Pradžios metai" id="education-start-year" type="date" class="data-input" required />
           <span class="error-message"></span>
         </div>
         <div class="input-wrapper">
           <label for="education-end-year" class="req-input"
             >Užbaigimo metai</label
           >
-          <input name="Užbaigimo metai" id="education-end-year" type="date" class="data-input" required />
+          <input min="1950-01-01" max="2027-12-31" name="Užbaigimo metai" id="education-end-year" type="date" class="data-input" required />
           <span class="error-message"></span>
         </div>
       </div>
@@ -441,14 +459,27 @@ function showEducationFields() {
     .parentElement.appendChild(educationSection);
 }
 function hideEducationFields() {
-  document.getElementById("user-education-data").remove();
+  if (document.getElementById("user-education-data"))
+    document.getElementById("user-education-data").remove();
 }
+
+const mutateObject = (curId, newName, labelId) => {
+  document.getElementById(curId).name = newName;
+
+  document.getElementById(labelId).innerHTML = newName;
+};
 
 function showWorkFields() {
   if (document.getElementById("user-work-experience"))
     document.getElementById("user-work-experience").remove();
 
-  document.getElementById("unemployment-reasons").style.display = "none";
+  // document.getElementById("unemployment-reasons").style.display = "none";
+
+  mutateObject(
+    "work-experience-textarea",
+    "Darbo pareigos",
+    "work-experience-label"
+  );
 
   var div = document.createElement("div");
   div.id = `user-work-experience`;
@@ -521,11 +552,6 @@ function showWorkFields() {
     <span class="error-message"></span>
   </div>
 </div>
-<div class="input-wrapper">
-  <label for="job-responsibilities" class="req-input">Darbo pareigos</label>
-  <textarea name="Darbo pareigos" id="job-responsibilities" required></textarea>
-  <span class="error-message"></span>
-</div>
   `;
   //append _div to button
   document
@@ -533,8 +559,14 @@ function showWorkFields() {
     .parentElement.appendChild(div);
 }
 function hideWorkFields() {
-  document.getElementById("user-work-experience").remove();
-  document.getElementById("unemployment-reasons").style.display = "block";
+  if (document.getElementById("user-work-experience"))
+    document.getElementById("user-work-experience").remove();
+
+  mutateObject(
+    "work-experience-textarea",
+    "Nedarbo priežastis",
+    "work-experience-label"
+  );
 }
 
 let kidsNum = 1;

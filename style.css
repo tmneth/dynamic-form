@@ -117,7 +117,7 @@ select {
   box-sizing: border-box;
 }
 
-#unemployment-reasons {
+#work-experience {
   width: 100%;
 }
 
@@ -310,12 +310,28 @@ input[type="checkbox"] {
 
 /* Mark the active step: */
 .step.active {
-  opacity: 1;
+  background-size: 8px 8;
+  opacity: 0.5 !important;
 }
 
+/* Mark the active step: */
+.step.done {
+  background-size: 8px 8;
+  background-color: red !important;
+}
+
+/* https://codepen.io/bitmap/pen/AzowBq */
 /* Mark the steps that are finished and valid: */
 .step.finish {
   background-color: #227cef;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.25) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 1;
   /* opacity: 1; */
 }
 

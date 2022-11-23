@@ -268,8 +268,8 @@
                 id="finishing-date"
                 type="date"
                 class="data-input"
-                min="2000-01-01"
-                max="2025-12-31"
+                min="1920-01-01"
+                max="2022-09-30"
                 required
               />
               <span class="error-message"></span>
@@ -331,14 +331,18 @@
               /><label for="negative">Ne</label>
             </div>
           </fieldset>
-          <div id="unemployment-reasons">
+          <div id="work-experience">
             <div class="input-wrapper">
-              <label for="unemployment-reason" class="req-input"
+              <label
+                id="work-experience-label"
+                for="work-experience-textarea"
+                class="req-input"
                 >Nedarbo priežastis</label
               >
               <textarea
                 name="Nedarbo priežastis"
-                id="unemployment-reason"
+                id="work-experience-textarea"
+                required
               ></textarea>
               <span class="error-message"></span>
             </div>
@@ -402,9 +406,11 @@
 
         <div class="nav-buttons">
           <button type="button" id="prevBtn" onclick="nextPrev(-1)">
-            Previous
+            Atgal
           </button>
-          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">
+            Kitas
+          </button>
         </div>
       </form>
     </main>
