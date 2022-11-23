@@ -372,6 +372,9 @@ function validateForm() {
     data[sections[currentTab]] = fields;
     document.getElementsByClassName("step")[currentTab].className += " finish";
   }
+  if (valid && sections[currentTab] === "Šeimyninė padėtis") {
+    data[sections[currentTab]]["Vaikų skaičius"] = kidsNum - 1;
+  }
   return valid; // return the valid status
 }
 
