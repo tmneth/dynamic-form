@@ -1,3 +1,21 @@
+/*==== Colors ====*/
+:root {
+  --first-color: #227cef;
+  --first-color-alt: #5e9ff4;
+  --second-color: #5f6368;
+  --second-color-alt: #dadce0;
+  --white-color: #fafaff;
+  --warning-color: #e12d39;
+  --warning-color-alt: #ffdddd;
+  --gray-color: #80868b;
+}
+
+/*==== Containers ====*/
+:root {
+  --primary-radius: 0.5rem;
+  --second-radius: 0.2rem;
+}
+
 body {
   font-family: Google Sans, sans-serif;
   max-width: max-content;
@@ -28,7 +46,7 @@ main {
 }
 
 .group-num {
-  background-color: #5f6368;
+  background-color: var(--second-color);
   color: #fff;
   border-radius: 100%;
   width: 0.8rem;
@@ -64,8 +82,8 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  border-radius: 0.5rem;
-  border: thin solid #dadce0;
+  border-radius: var(--primary-radius);
+  border: thin solid var(--second-color-alt);
   display: none;
 }
 
@@ -89,7 +107,6 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
@@ -99,8 +116,8 @@ input,
 select {
   height: 3rem;
   font-size: 1.25rem;
-  border: thin solid #80868b;
-  border-radius: 0.2rem;
+  border: thin solid var(--gray-color);
+  border-radius: var(--second-radius);
   width: 100%;
   padding: 0;
   padding-left: 10px;
@@ -108,8 +125,6 @@ select {
 }
 
 select {
-  /* for some reason, select's height is scaled differently
-  so 3rem for input is approx 3.23 for select */
   background-color: #fff;
   -ms-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -123,7 +138,7 @@ select {
 
 .req-input::after {
   content: "*";
-  color: #80868b;
+  color: var(--gray-color);
   margin-left: 3px;
 }
 
@@ -151,8 +166,8 @@ textarea {
   padding: 12px 20px;
   box-sizing: border-box;
   font-size: 1.25rem;
-  border: thin solid #80868b;
-  border-radius: 0.2rem;
+  border: thin solid var(--gray-color);
+  border-radius: var(--second-radius);
   background-color: #fff;
   resize: none;
 }
@@ -234,34 +249,111 @@ input[type="radio"] {
   background-color: #e2effc;
 }
 
-/* PRIVACY POLICY */
-
-input[type="checkbox"] {
-  border: 0px;
-  width: 50px;
-  height: 1.5em;
-  transition: 0.2s all linear;
-  margin-left: calc(1rem - 0.25rem);
-}
-
-.privacy-policy {
-  font-size: 0.85rem;
-  padding: 0.25rem;
-  background-color: #e8f0fe;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  border-radius: 0.5rem;
-  display: none;
-}
-
 .save-form {
   cursor: pointer;
   align-self: flex-end;
-  border-radius: 0.5rem;
+  border-radius: var(--primary-radius);
   border: none;
   width: 5rem;
   height: 2.3rem;
+}
+
+.steps {
+  width: 100%;
+  display: flex;
+  /* gap: 10px; */
+  position: absolute;
+  top: -1px;
+  z-index: 1;
+}
+
+.step:first-child {
+  border-top-left-radius: var(--primary-radius);
+}
+
+.step:last-child {
+  border-top-right-radius: var(--primary-radius);
+}
+
+.step {
+  height: 10px;
+  width: calc(100% / 7);
+  background-color: var(--first-color-alt);
+  border: none;
+  display: inline-block;
+}
+
+.step.active {
+  background-size: 8px 8;
+  background-color: var(--first-color-alt) !important;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.25) 1px,
+    transparent 1px,
+    transparent 6px
+  ) !important;
+}
+
+.step.finish {
+  background-color: var(--first-color);
+  opacity: 1;
+}
+
+input.invalid,
+textarea.invalid {
+  background-color: var(--warning-color-alt);
+}
+
+.error-message {
+  color: var(--warning-color);
+  font-size: 0.8rem;
+}
+
+.hidden-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+#prevBtn,
+#nextBtn {
+  cursor: pointer;
+  background-color: var(--first-color);
+  height: 3.5rem;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: var(--second-radius);
+  width: 8rem;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+#nextBtn {
+  transition: opacity 0.3s ease;
+}
+
+#prevBtn {
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+  color: var(--first-color);
+}
+
+#prevBtn:hover {
+  background-color: var(--first-color);
+  color: #fff;
+}
+
+#nextBtn:hover {
+  opacity: 0.8;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
 }
 
 @media screen and (max-width: 720px) {
@@ -284,111 +376,4 @@ input[type="checkbox"] {
     width: 100%;
     overflow: scroll;
   }
-}
-/* STEPS */
-
-.steps {
-  width: 100%;
-  display: flex;
-  /* gap: 10px; */
-  position: absolute;
-  top: -1px;
-  z-index: 1;
-}
-
-.step:first-child {
-  border-top-left-radius: 0.5rem;
-}
-
-.step:last-child {
-  border-top-right-radius: 0.5rem;
-}
-
-/* Make circles that indicate the steps of the form: */
-.step {
-  height: 10px;
-  width: calc(100% / 7);
-  background-color: #5e9ff4;
-  border: none;
-  /* border-radius: 50%; */
-  display: inline-block;
-}
-
-/* Mark the active step: */
-.step.active {
-  background-size: 8px 8;
-  background-color: #5e9ff4 !important;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.25),
-    rgba(255, 255, 255, 0.25) 1px,
-    transparent 1px,
-    transparent 6px
-  ) !important;
-}
-
-/* https://codepen.io/bitmap/pen/AzowBq */
-/* Mark the steps that are finished and valid: */
-.step.finish {
-  background-color: #227cef;
-  opacity: 1;
-  /* opacity: 1; */
-}
-
-/* Mark input boxes that gets an error on validation: */
-input.invalid,
-textarea.invalid {
-  background-color: #ffdddd;
-}
-
-.error-message {
-  color: #e12d39;
-  font-size: 0.8rem;
-}
-
-.hidden-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-#prevBtn,
-#nextBtn {
-  cursor: pointer;
-  background-color: #227cef;
-
-  height: 3.5rem;
-  font-size: 1.25rem;
-  border: none;
-  border-radius: 0.2rem;
-  width: 8rem;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-}
-
-#nextBtn {
-  transition: opacity 0.3s ease;
-}
-
-#prevBtn {
-  transition: background-color 0.3s ease;
-  background-color: transparent;
-  color: #227cef;
-}
-
-#prevBtn:hover {
-  background-color: #227cef;
-  color: #fff;
-}
-
-#nextBtn:hover {
-  opacity: 0.8;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 1rem;
-  align-self: flex-end;
 }

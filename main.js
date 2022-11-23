@@ -1,4 +1,5 @@
 const data = {};
+let kidsNum = 1;
 
 sections = [
   "Bendra informacija",
@@ -199,15 +200,12 @@ const getValidationData = (field) => {
   switch (field.type) {
     case "text":
     case "textarea":
+    case "fieldset":
+    case "number":
       return validateText(field);
     case "select-one":
       return validateSelect(field);
-    case "number":
-      return validateText(field);
-    case "fieldset":
-      return validateText(field);
     case "radio":
-    case "checkbox":
       return validateChoice(field);
     case "tel":
       return validatePhone(field);
@@ -222,13 +220,13 @@ const getValidationData = (field) => {
   }
 };
 
-function reportError(field, message = "Užpildykite šį lauką") {
-  let error = document.getElementById(`${field.id}`).parentElement.children[2]; //we're assuming error msg span goes after label, hence it has id of 1
+const reportError = (field, message = "Užpildykite šį lauką") => {
+  let error = document.getElementById(`${field.id}`).parentElement.children[2];
   error.textContent = `${message}`;
-  return false; // invalid
-}
+  return false;
+};
 
-function reportSuccess(field, fields) {
+const reportSuccess = (field, fields) => {
   if (field.classList.contains("invalid")) {
     let error = document.getElementById(`${field.id}`).parentElement
       .children[2];
@@ -251,10 +249,10 @@ function reportSuccess(field, fields) {
     fields[field.name] = field.value;
   }
 
-  return true; // valid
-}
+  return true;
+};
 
-function reportValidity(field, fields) {
+const reportValidity = (field, fields) => {
   const validation = getValidationData(field, fields);
   if (!validation.isValid && validation.message) {
     return reportError(field, validation.message);
@@ -263,9 +261,10 @@ function reportValidity(field, fields) {
   } else {
     return reportSuccess(field, fields);
   }
-}
+};
 
-// ============== PERSONAL ID DATA RETRIEVAL ==============
+// ============== SOCIAL SECURITY NUMBER DATA RETRIEVAL ==============
+
 const getUserGender = (userID) => {
   let genderInd = parseInt(userID[0]);
   let userGender = "";
@@ -294,80 +293,68 @@ const getUserBirthDate = (userID) => {
 
 // ============== MULTISTEP FORM IMPLEMENTATION ==============
 
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+let currentTab = 0;
+showTab(currentTab);
 
 function showTab(n) {
-  if (n == 8) {
-    return;
-  }
+  let sections = document.getElementsByClassName("data-group");
+  sections[n].style.display = "flex";
+
+  if (n === sections.length) return;
+
   document.getElementById("nextBtn").style.display = "inline";
-  // This function will display the specified tab of the form ...
-  var x = document.getElementsByClassName("data-group");
-  x[n].style.display = "flex";
-  // ... and fix the Previous/Next buttons:
+  document.getElementById("nextBtn").innerHTML = "Kitas";
   document.getElementById("nextBtn").type = "button";
+
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
-  console.log(currentTab);
-  if (n == 7) {
-    document.getElementById("nextBtn").type = "submit";
+
+  if (n == sections.length - 1) {
     document.getElementById("nextBtn").style.display = "none";
-    fixStepIndicator(n);
-  } else if (n == 6) {
+    document.getElementById("nextBtn").type = "submit";
+  } else if (n == sections.length - 2) {
     document.getElementById("nextBtn").innerHTML = "Patvirtinti";
-    fixStepIndicator(n);
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Kitas";
-    fixStepIndicator(n);
   }
-  // ... and run a function that displays the correct step indicator:
+
+  fixStepIndicator(n);
 }
 
 function nextPrev(n) {
-  // This function will figure out which tab to display
   var x = document.getElementsByClassName("data-group");
-  // Exit the function if any field in the current tab is invalid:
+
   if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
+
   x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
+
   currentTab = currentTab + n;
-  // if you have reached the end of the form... :
+
   if (currentTab >= x.length) {
-    //...the form gets submitted:
     document.getElementById("regForm").submit();
     return false;
   }
-  // Otherwise, display the correct tab:
+
   showTab(currentTab);
 }
 
 function validateForm() {
-  // This function deals with validation of the form fields
-  var x,
-    y,
-    i,
-    valid = true;
+  let x;
+  let y;
+  let i;
+  let valid = true;
+  let fields = {};
+
   x = document.getElementsByClassName("data-group");
   y = x[currentTab].querySelectorAll("input, SELECT, textarea");
 
-  // A loop that checks every input field in the current tab:
-  let fields = {};
-
   for (i = 0; i < y.length; i++) {
-    // If a field is empty...
     if (!reportValidity(y[i], fields)) {
-      // add an "invalid" class to the field:
       y[i].className += " invalid";
-      // and set the current valid status to false:
       valid = false;
     }
   }
-  // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     data[sections[currentTab]] = fields;
     document.getElementsByClassName("step")[currentTab].className += " finish";
@@ -379,13 +366,11 @@ function validateForm() {
 }
 
 function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
   var i,
     x = document.getElementsByClassName("step");
   for (i = 0; i < x.length; i++) {
     x[i].className = x[i].className.replace(" active", "");
   }
-  //... and adds the "active" class to the current step:
   if (x[n]) x[n].className += " active";
 }
 
@@ -393,7 +378,7 @@ function fixStepIndicator(n) {
 
 let formDetails = {};
 
-function showEducationFields() {
+const showEducationFields = () => {
   if (document.getElementById("user-education-data"))
     document.getElementById("user-education-data").remove();
 
@@ -402,69 +387,103 @@ function showEducationFields() {
   educationSection.classList.add("hidden-wrapper");
 
   educationSection.innerHTML = `
-      <div class="input-group">
-        <div class="input-wrapper">
-          <label for="degree-type" class="req-input"
-            >Studijų pakopa</label
-          >
-          <select
-            name="Studijų pakopa"
-            aria-labelledby="degree-type"
-            id="degree-type"
-            type="text"
-            class="data-input"
-            required
-          >
-            <option value="primary">Bakalaurantūra</option>
-            <option value="secondary">Magistrantūra</option>
-            <option value="professional">Meno aspirantūra</option>
-            <option value="higher">Rezidentūra</option>
-            <option value="highest">Doktorantūra</option>
-          </select>
-          <span class="error-message"></span>
-        </div>
-        <div class="input-wrapper">
-          <label for="course" class="req-input">Kursas</label>
-          <input name="Kursas" id="course" type="number" class="data-input" required />
-          <span class="error-message"></span>
-        </div>
-      </div>
-      <div class="input-group">
-        <div class="input-wrapper">
-          <label for="uni-name">Mokslo įstaiga</label>
-          <input name="Mokslo įstaiga" id="uni-name" type="text" class="data-input" required />
-          <span class="error-message"></span>
-        </div>
-        <div class="input-wrapper">
-          <label for="uni-qualification" class="req-input">Kvalifikacija</label>
-          <input name="Kvalifikacija" id="uni-qualification" type="text" class="data-input" required />
-          <span class="error-message"></span>
-        </div>
-      </div>
-      <div class="input-group">
-        <div class="input-wrapper">
-          <label for="education-start-year" class="req-input">Pradžios metai</label>
-          <input min="1950-01-01" max="2022-12-31" name="Pradžios metai" id="education-start-year" type="date" class="data-input" required />
-          <span class="error-message"></span>
-        </div>
-        <div class="input-wrapper">
-          <label for="education-end-year" class="req-input"
-            >Užbaigimo metai</label
-          >
-          <input min="1950-01-01" max="2027-12-31" name="Užbaigimo metai" id="education-end-year" type="date" class="data-input" required />
-          <span class="error-message"></span>
-        </div>
-      </div>
+  <div class="input-group">
+  <div class="input-wrapper">
+    <label for="degree-type" class="req-input">Studijų pakopa</label>
+    <select
+      name="Studijų pakopa"
+      aria-labelledby="degree-type"
+      id="degree-type"
+      type="text"
+      class="data-input"
+      required
+    >
+      <option value="primary">Bakalaurantūra</option>
+      <option value="secondary">Magistrantūra</option>
+      <option value="professional">Meno aspirantūra</option>
+      <option value="higher">Rezidentūra</option>
+      <option value="highest">Doktorantūra</option>
+    </select>
+    <span class="error-message"></span>
+  </div>
+  <div class="input-wrapper">
+    <label for="course" class="req-input">Kursas</label>
+    <input
+      name="Kursas"
+      id="course"
+      type="number"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
+  </div>
+</div>
+<div class="input-group">
+  <div class="input-wrapper">
+    <label for="uni-name">Mokslo įstaiga</label>
+    <input
+      name="Mokslo įstaiga"
+      id="uni-name"
+      type="text"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
+  </div>
+  <div class="input-wrapper">
+    <label for="uni-qualification" class="req-input">Kvalifikacija</label>
+    <input
+      name="Kvalifikacija"
+      id="uni-qualification"
+      type="text"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
+  </div>
+</div>
+<div class="input-group">
+  <div class="input-wrapper">
+    <label for="education-start-year" class="req-input"
+      >Pradžios metai</label
+    >
+    <input
+      min="1950-01-01"
+      max="2022-12-31"
+      name="Pradžios metai"
+      id="education-start-year"
+      type="date"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
+  </div>
+  <div class="input-wrapper">
+    <label for="education-end-year" class="req-input"
+      >Užbaigimo metai</label
+    >
+    <input
+      min="1950-01-01"
+      max="2027-12-31"
+      name="Užbaigimo metai"
+      id="education-end-year"
+      type="date"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
+  </div>
+</div>
   `;
-  //append _div to button
   document
     .getElementById("optional-uni-section")
     .parentElement.appendChild(educationSection);
-}
-function hideEducationFields() {
+};
+
+const hideEducationFields = () => {
   if (document.getElementById("user-education-data"))
     document.getElementById("user-education-data").remove();
-}
+};
 
 const mutateObject = (curId, newName, labelId) => {
   document.getElementById(curId).name = newName;
@@ -472,11 +491,9 @@ const mutateObject = (curId, newName, labelId) => {
   document.getElementById(labelId).innerHTML = newName;
 };
 
-function showWorkFields() {
+const showWorkFields = () => {
   if (document.getElementById("user-work-experience"))
     document.getElementById("user-work-experience").remove();
-
-  // document.getElementById("unemployment-reasons").style.display = "none";
 
   mutateObject(
     "work-experience-textarea",
@@ -484,15 +501,21 @@ function showWorkFields() {
     "work-experience-label"
   );
 
-  var div = document.createElement("div");
-  div.id = `user-work-experience`;
-  div.classList.add("hidden-wrapper");
-  div.innerHTML = `
+  var workSection = document.createElement("div");
+  workSection.id = `user-work-experience`;
+  workSection.classList.add("hidden-wrapper");
+  workSection.innerHTML = `
   <div class="input-group">
   <div class="input-wrapper">
-  <label for="business-name" class="req-input">Darbo įstaiga</label>
-  <input name="Kvalifikacija" id="business-name" type="text" class="data-input" required />
-  <span class="error-message"></span>
+    <label for="business-name" class="req-input">Darbo įstaiga</label>
+    <input
+      name="Kvalifikacija"
+      id="business-name"
+      type="text"
+      class="data-input"
+      required
+    />
+    <span class="error-message"></span>
   </div>
   <div class="input-wrapper">
     <label for="work-experience" class="req-input">Darbo patirtis</label>
@@ -512,7 +535,6 @@ function showWorkFields() {
     </select>
   </div>
 </div>
-
 <div class="input-group">
   <div class="input-wrapper">
     <label for="job-type">Darbo pobūdis</label>
@@ -556,12 +578,11 @@ function showWorkFields() {
   </div>
 </div>
   `;
-  //append _div to button
   document
     .getElementById("optional-work-section")
-    .parentElement.appendChild(div);
-}
-function hideWorkFields() {
+    .parentElement.appendChild(workSection);
+};
+const hideWorkFields = () => {
   if (document.getElementById("user-work-experience"))
     document.getElementById("user-work-experience").remove();
 
@@ -570,9 +591,7 @@ function hideWorkFields() {
     "Nedarbo priežastis",
     "work-experience-label"
   );
-}
-
-let kidsNum = 1;
+};
 
 const appendKid = () => {
   if (kidsNum === 1) {
@@ -589,17 +608,31 @@ const appendKid = () => {
   div.innerHTML = `
   <div class="input-group hidden-entry">
   <div class="input-wrapper">
-    <label for=kid${kidsNum}-first-name class="req-input">Vardas</label>
-    <input name="${kidsNum}) vaiko vardas" id=kid${kidsNum}-first-name type="text" class="data-input" required />
+    <label for="kid${kidsNum}-first-name" class="req-input">Vardas</label>
+    <input
+      name="${kidsNum}) vaiko vardas"
+      id="kid${kidsNum}-first-name"
+      type="text"
+      class="data-input"
+      required
+    />
     <span class="error-message"></span>
   </div>
   <div class="input-wrapper">
-    <label for=kid${kidsNum}-last-name class="req-input">Pavardė</label>
-    <input name="${kidsNum}) vaiko pavardė" id=kid${kidsNum}-last-name type="text" class="data-input" required />
+    <label for="kid${kidsNum}-last-name" class="req-input">Pavardė</label>
+    <input
+      name="${kidsNum}) vaiko pavardė"
+      id="kid${kidsNum}-last-name"
+      type="text"
+      class="data-input"
+      required
+    />
     <span class="error-message"></span>
   </div>
-</div>`;
-  //append _div to button
+</div>
+
+`;
+
   document.getElementById("maritial-status").appendChild(div);
 
   kidsNum++;
@@ -614,7 +647,7 @@ const removeKid = () => {
   }
 };
 
-function setUserGender(userGender) {
+const setUserGender = (userGender) => {
   let statusSelect = document.getElementById("marstatus");
 
   statusSelect.options[0] = new Option(
@@ -635,9 +668,9 @@ function setUserGender(userGender) {
     false,
     false
   );
-}
+};
 
-function getPartner() {
+const getPartner = () => {
   let statusSelect = document.getElementById("marstatus");
   var selectedMarStatus =
     statusSelect.options[statusSelect.selectedIndex].value;
@@ -646,7 +679,7 @@ function getPartner() {
     var div = document.createElement("div");
     div.id = "partner-details";
     div.innerHTML = `
-    <div class="hidden-entry">
+<div class="hidden-entry">
     <div class="input-wrapper">
     <label for="partner-ssn class="req-input">Partnerio asmens kodas</label>
     <input
@@ -677,11 +710,11 @@ function getPartner() {
   } else if (document.getElementById("partner-details")) {
     document.getElementById("partner-details").remove();
   }
-}
+};
 
 // ============== HANDLE FORM SUBMIT ==============
 
-function handleSubmit(event) {
+const handleSubmit = (event) => {
   event.preventDefault();
 
   document.getElementById("json").textContent = JSON.stringify(
@@ -691,7 +724,7 @@ function handleSubmit(event) {
   );
 
   console.log(data);
-}
+};
 
 const form = document.querySelector("form");
 form.addEventListener("submit", handleSubmit);
