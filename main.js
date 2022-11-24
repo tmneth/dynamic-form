@@ -17,16 +17,6 @@ const isValid = (field) => {
   return getValidationData(field).isValid;
 };
 
-// https://regex101.com/library/YnB0aB
-const isValidId = (val) => {
-  let genderInd = parseInt(val[0]);
-
-  if (![1, 2, 3, 4, 5, 6].includes(genderInd) || val.length !== 11)
-    return false;
-
-  return true;
-};
-
 const isValidPhone = (val) => {
   const regex = new RegExp(/^(86|\+3706)[0-9]{7}$/);
   return regex.test(val);
@@ -37,6 +27,13 @@ const isValidEmail = (val) => {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 
+  return regex.test(val);
+};
+
+const isValidSsn = (val) => {
+  const regex = new RegExp(
+    /^[12345]\d{2}(1[012]|0[123456789])(3[01]|[012][123456789])\d{4}$/
+  );
   return regex.test(val);
 };
 
@@ -61,14 +58,14 @@ const validateEmail = (field) => {
   }
 };
 
-const validateId = (field) => {
+const validateSsn = (field) => {
   const val = field.value.trim();
 
   if (val === "" && field.required) {
     return {
       isValid: false,
     };
-  } else if (val !== "" && !isValidId(val)) {
+  } else if (val !== "" && !isValidSsn(val)) {
     return {
       isValid: false,
       message: "Įveskite tinkamą asmens kodą",
@@ -194,7 +191,7 @@ const validateChoice = (field) => {
 };
 
 const getValidationData = (field) => {
-  if (field.classList.contains("ssn")) return validateId(field);
+  if (field.classList.contains("ssn")) return validateSsn(field);
   switch (field.type) {
     case "text":
     case "textarea":
@@ -642,7 +639,7 @@ const appendKid = () => {
   <div class="input-wrapper">
     <label for="kid${kidsNum}-first-name" class="req-input">Vardas</label>
     <input
-      name="${kidsNum}) vaiko vardas"
+      name="[${kidsNum}] vaiko vardas"
       id="kid${kidsNum}-first-name"
       type="text"
       class="data-input"
@@ -653,7 +650,7 @@ const appendKid = () => {
   <div class="input-wrapper">
     <label for="kid${kidsNum}-last-name" class="req-input">Pavardė</label>
     <input
-      name="${kidsNum}) vaiko pavardė"
+      name="[${kidsNum}] vaiko pavardė"
       id="kid${kidsNum}-last-name"
       type="text"
       class="data-input"
@@ -746,6 +743,18 @@ const getPartner = () => {
   }
 };
 
+const getDegreeName = () => {
+  let degreeLevel = document.getElementById("most-recent-degree-type");
+  let selectedDegree = degreeLevel.options[degreeLevel.selectedIndex].value;
+
+  if (selectedDegree === "doktorantura") {
+    document.getElementById("phd-type").disabled = false;
+  } else {
+    document.getElementById("phd-type").disabled = true;
+    document.getElementById("phd-type").value = "no-phd";
+  }
+};
+
 const getPriorEducation = () => {
   if (document.getElementById("most-recent-degree")) {
     document.getElementById("most-recent-degree").remove();
@@ -755,47 +764,69 @@ const getPriorEducation = () => {
   let selectedDegree = degreeLevel.options[degreeLevel.selectedIndex].value;
 
   if (
+    selectedDegree === "profesinis" ||
     selectedDegree === "kolegijinis" ||
-    selectedDegree === "universitetinis" ||
-    selectedDegree === "profesinis"
+    selectedDegree === "universitetinis"
   ) {
     var div = document.createElement("div");
     div.id = "most-recent-degree";
     div.innerHTML = `
-  <div class="input-group hidden-entry">
-  <div class="input-wrapper">
-  <label for="most-recent-degree-type" class="req-input">Studijų pakopa</label>
-  <select
-    name="Studijų pakopa"
-    id="most-recent-degree-type"
-    type="text"
-    class="data-input"
-    required
-  >
-    <option value="primary">Bakalaurantūra</option>
-    <option value="secondary">Magistrantūra</option>
-    <option value="professional">Meno aspirantūra</option>
-    <option value="higher">Rezidentūra</option>
-    <option value="highest">Doktorantūra</option>
-  </select>
-  <span class="error-message"></span>
-</div>
-<div class="input-wrapper">
-<label for="highest-degree-type">Mokslo laipsnis</label>
-<select
-  name="Mokslo laipsnis"
-  id="highest-degree-type"
-  type="text"
-  class="data-input"
->
-  <option value="phd">Daktaras</option>
-  <option value="habilitation">Habilituotas daktaras</option>
-</select>
-<span class="error-message"></span>
-</div>
-</div>
-</div>
+    <div class="input-group hidden-entry">
+      <div class="input-wrapper">
+        <label for="qualification" class="req-input">Kvalifikacija</label>
+        <input
+          name="Kvalifikacija"
+          id="qualification"
+          type="text"
+          class="data-input"
+          required
+        />
+        <span class="error-message"></span>
+      </div>
+    </div>
+  
 `;
+    if (selectedDegree === "universitetinis") {
+      div.innerHTML += `
+      <div class="input-group hidden-entry">
+      <div class="input-wrapper">
+        <label for="most-recent-degree-type" class="req-input"
+          >Studijų pakopa</label
+        >
+        <select
+          name="Studijų pakopa"
+          id="most-recent-degree-type"
+          type="text"
+          class="data-input"
+          onchange="getDegreeName();"
+          required
+        >
+          <option value="bakalaurantura">Bakalaurantūra</option>
+          <option value="magistrantura">Magistrantūra</option>
+          <option value="meno-asp">Meno aspirantūra</option>
+          <option value="rezidentura">Rezidentūra</option>
+          <option value="doktorantura">Doktorantūra</option>
+        </select>
+        <span class="error-message"></span>
+      </div>
+      <div class="input-wrapper">
+        <label for="phd-type">Mokslo laipsnis</label>
+        <select
+          name="Mokslo laipsnis"
+          id="phd-type"
+          type="text"
+          class="data-input"
+          disabled
+        >
+          <option value="no-phd">Nėra mokslo laipsnio</option>
+          <option value="phd">Daktaras</option>
+          <option value="habilitation">Habilituotas daktaras</option>
+        </select>
+        <span class="error-message"></span>
+      </div>
+    </div>    
+      `;
+    }
     document.getElementById("degree-finishing-date").appendChild(div);
   }
 };

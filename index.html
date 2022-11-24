@@ -10,7 +10,6 @@
   <body>
     <main class="main">
       <form class="form" name="myform" id="regForm">
-        <!-- indicates the steps of the form: -->
         <div class="steps">
           <span class="step"></span>
           <span class="step"></span>
@@ -20,6 +19,7 @@
           <span class="step"></span>
           <span class="step"></span>
         </div>
+
         <section class="data-group">
           <h2 class="group-heading"></h2>
           <div class="input-group">
@@ -103,6 +103,7 @@
             </div>
           </div>
         </section>
+
         <section class="data-group">
           <h2 class="group-heading"></h2>
           <div class="input-wrapper">
@@ -182,7 +183,6 @@
               <option value="išsiskyręs">Išsiskyręs</option>
             </select>
           </div>
-
           <div class="buttons">
             <button type="button" onclick="appendKid();" class="append-child">
               Pridėti vaiką
@@ -237,11 +237,13 @@
           </div>
           <div class="input-group">
             <div class="input-wrapper">
-              <label for="qualification" class="req-input">Kvalifikacija</label>
+              <label for="start-year" class="req-input">Pradžios metai</label>
               <input
-                name="Kvalifikacija"
-                id="qualification"
-                type="text"
+                min="1950-01-01"
+                max="2022-12-31"
+                name="Pradžios metai"
+                id="start-year"
+                type="date"
                 class="data-input"
                 required
               />
@@ -355,7 +357,6 @@
             />
             <span class="error-message"></span>
           </div>
-
           <div class="input-wrapper">
             <label for="portfolio-url">Portfolio</label>
             <input
