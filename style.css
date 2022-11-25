@@ -4,7 +4,7 @@
   --first-color-alt: #5e9ff4;
   --second-color: #5f6368;
   --second-color-alt: #dadce0;
-  --white-color: #fafaff;
+  --white-color: #fff;
   --warning-color: #e12d39;
   --warning-color-alt: #ffdddd;
   --gray-color: #80868b;
@@ -35,7 +35,7 @@ main {
   position: relative;
 }
 
-.buttons {
+.controls {
   display: flex;
   gap: 1rem;
   align-self: flex-start;
@@ -51,7 +51,7 @@ fieldset {
 
 .group-num {
   background-color: var(--second-color);
-  color: #fff;
+  color: var(--white-color);
   border-radius: 100%;
   width: 0.8rem;
   height: 0.8rem;
@@ -80,7 +80,7 @@ fieldset {
 
 .data-group {
   position: relative;
-  background-color: #fff;
+  background-color: var(--white-color);
   padding: 5rem 3rem 3rem 3rem;
   display: flex;
   flex-direction: column;
@@ -129,7 +129,7 @@ select {
 }
 
 select {
-  background-color: #fff;
+  background-color: var(--white-color);
   -ms-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;
@@ -172,7 +172,7 @@ textarea {
   font-size: 1.25rem;
   border: thin solid var(--gray-color);
   border-radius: var(--second-radius);
-  background-color: #fff;
+  background-color: var(--white-color);
   resize: none;
 }
 
@@ -265,7 +265,6 @@ input[type="radio"] {
 .steps {
   width: 100%;
   display: flex;
-  /* gap: 10px; */
   position: absolute;
   top: -1px;
   z-index: 1;
@@ -336,7 +335,7 @@ textarea.invalid {
   border: none;
   border-radius: var(--second-radius);
   width: 8rem;
-  color: #fff;
+  color: var(--white-color);
   padding: 10px;
   text-align: center;
 }
@@ -353,7 +352,7 @@ textarea.invalid {
 
 #prevBtn:hover {
   background-color: var(--first-color);
-  color: #fff;
+  color: var(--white-color);
 }
 
 #nextBtn:hover {
@@ -364,6 +363,11 @@ textarea.invalid {
   display: flex;
   gap: 1rem;
   align-self: flex-end;
+}
+
+#most-recent-degree {
+  width: 100% !important;
+  margin-top: -2rem;
 }
 
 @media screen and (max-width: 720px) {
@@ -390,13 +394,7 @@ textarea.invalid {
     width: 100%;
     box-sizing: border-box;
   }
-  .buttons > button {
+  .controls > button {
     font-size: 0.9rem;
   }
-}
-
-#most-recent-degree {
-  width: 100% !important;
-  /* background-color: red; */
-  margin-top: -2rem;
 }
