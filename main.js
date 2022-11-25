@@ -780,7 +780,7 @@ const getPriorEducation = () => {
   
 `;
     if (selectedDegree === "universitetinis") {
-      div.innerHTML += `
+      degreeLevelSection.innerHTML += `
       <div class="input-group hidden-entry">
       <div class="input-wrapper">
         <label for="most-recent-degree-type" class="req-input"
