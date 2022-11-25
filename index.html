@@ -171,9 +171,7 @@
             <label for="marstatus" class="req-input">Vedybinė padėtis</label>
             <select
               name="Vedybinė padėtis"
-              aria-labelledby="maritial-status"
               id="marstatus"
-              type="select-one"
               class="data-input"
               onchange="getPartner();"
               required
@@ -208,7 +206,6 @@
               <select
                 name="Išsilavinimo lygis"
                 id="degree-level"
-                type="text"
                 class="data-input"
                 onchange="getPriorEducation();"
                 required
@@ -275,7 +272,7 @@
             </legend>
             <div class="group-choice">
               <input
-                name="Šiuo metu jūs studijuojate universitete"
+                name="ŠAr šiuo metu jūs studijuojate universitete?"
                 id="positive"
                 type="radio"
                 onclick="showEducationFields();"
@@ -284,7 +281,7 @@
               <input
                 id="negative"
                 type="radio"
-                name="Šiuo metu jūs studijuojate universitete"
+                name="Ar šiuo metu jūs studijuojate universitete?"
                 onclick="hideEducationFields();"
                 value="Ne"
                 checked

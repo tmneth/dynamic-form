@@ -392,9 +392,7 @@ const showEducationFields = () => {
     <label for="degree-type" class="req-input">Studijų pakopa</label>
     <select
       name="Studijų pakopa"
-      aria-labelledby="degree-type"
       id="degree-type"
-      type="text"
       class="data-input"
       required
     >
@@ -525,8 +523,6 @@ const showWorkFields = () => {
     <select
       name="Darbo patirtis"
       id="work-experience"
-      aria-labelledby="degree-type"
-      type="text"
       class="data-input"
       required
     >
@@ -544,7 +540,6 @@ const showWorkFields = () => {
     <select
       name="Darbo pobūdis"
       id="job-type"
-      type="text"
       class="data-input"
       required
     >
@@ -796,7 +791,6 @@ const getPriorEducation = () => {
         <select
           name="Studijų pakopa"
           id="most-recent-degree-type"
-          type="text"
           class="data-input"
           onchange="getDegreeName();"
           required
@@ -814,7 +808,6 @@ const getPriorEducation = () => {
         <select
           name="Mokslo laipsnis"
           id="phd-type"
-          type="text"
           class="data-input"
           disabled
         >
