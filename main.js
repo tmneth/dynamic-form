@@ -175,7 +175,6 @@ const validateGroup = (fieldset) => {
   if (!isChecked && isRequired) {
     return {
       isValid: false,
-      message: "Please make a selection.",
     };
   } else {
     return {
