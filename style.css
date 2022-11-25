@@ -370,6 +370,11 @@ textarea.invalid {
   margin-top: -2rem;
 }
 
+#json {
+  overflow: scroll;
+  width: 100%;
+}
+
 @media screen and (max-width: 720px) {
   .input-group {
     flex-direction: column;
@@ -385,10 +390,6 @@ textarea.invalid {
   }
   .data-group {
     padding: 5rem 1.25rem 3rem 1.25rem;
-  }
-  #json {
-    width: 100%;
-    overflow: scroll;
   }
   fieldset {
     width: 100%;
