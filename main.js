@@ -157,9 +157,7 @@ const validateDate = (field) => {
 };
 
 const validateGroup = (fieldset) => {
-  const choices = fieldset.querySelectorAll(
-    'input[type="radio"], input[type="checkbox"]'
-  );
+  const choices = fieldset.querySelectorAll('input[type="radio"]');
 
   let isRequired = false,
     isChecked = false;
@@ -209,9 +207,7 @@ const getValidationData = (field) => {
     case "date":
       return validateDate(field);
     default:
-      throw new Error(
-        `The provided field type '${field.tagName}:${field.type}' is not supported in this form.`
-      );
+      throw new Error(`The field type is not supported.`);
   }
 };
 
@@ -230,8 +226,8 @@ const reportSuccess = (field, fields) => {
   }
 
   if (field.id === "user-ssn") {
-    fields["lytis"] = getUserGender(field.value);
-    fields["brithdate"] = getUserBirthDate(field.value);
+    fields["Lytis"] = getUserGender(field.value);
+    fields["Gimimo data"] = getUserBirthDate(field.value);
   }
 
   if (field.type === "select-one") {
