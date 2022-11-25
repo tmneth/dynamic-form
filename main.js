@@ -376,8 +376,6 @@ function fixStepIndicator(n) {
 
 // ============== OPTIONAL FIELDS (EDUCATION & WORK) ==============
 
-let formDetails = {};
-
 const showEducationFields = () => {
   if (document.getElementById("user-education-data"))
     document.getElementById("user-education-data").remove();
@@ -485,7 +483,7 @@ const hideEducationFields = () => {
 
 const mutateObject = (curId, newName, labelId) => {
   document.getElementById(curId).name = newName;
-
+  document.getElementById(curId).value = "";
   document.getElementById(labelId).innerHTML = newName;
 };
 
@@ -627,9 +625,9 @@ const appendKid = () => {
     document.getElementById("maritial-status").appendChild(heading);
   }
 
-  var div = document.createElement("div");
-  div.id = `kid-${kidsNum}`;
-  div.innerHTML = `
+  var kidInfoContainer = document.createElement("div");
+  kidInfoContainer.id = `kid-${kidsNum}`;
+  kidInfoContainer.innerHTML = `
   <div class="input-group hidden-entry">
   <div class="input-wrapper">
     <label for="kid${kidsNum}-first-name" class="req-input">Vardas</label>
@@ -657,7 +655,7 @@ const appendKid = () => {
 
 `;
 
-  document.getElementById("maritial-status").appendChild(div);
+  document.getElementById("maritial-status").appendChild(kidInfoContainer);
 
   kidsNum++;
 };
@@ -704,9 +702,9 @@ const getPartner = () => {
     statusSelect.options[statusSelect.selectedIndex].value;
 
   if (selectedMarStatus === "vedęs" || selectedMarStatus === "ištekėjusi") {
-    var div = document.createElement("div");
-    div.id = "partner-details";
-    div.innerHTML = `
+    var partnerInfoSection = document.createElement("div");
+    partnerInfoSection.id = "partner-details";
+    partnerInfoSection.innerHTML = `
 <div class="hidden-entry">
     <div class="input-wrapper">
     <label for="partner-ssn class="req-input">Partnerio asmens kodas</label>
@@ -734,7 +732,7 @@ const getPartner = () => {
 </div>
 </div>
 `;
-    document.getElementById("maritial-status").appendChild(div);
+    document.getElementById("maritial-status").appendChild(partnerInfoSection);
   }
 };
 
@@ -763,9 +761,9 @@ const getPriorEducation = () => {
     selectedDegree === "kolegijinis" ||
     selectedDegree === "universitetinis"
   ) {
-    var div = document.createElement("div");
-    div.id = "most-recent-degree";
-    div.innerHTML = `
+    var degreeLevelSection = document.createElement("div");
+    degreeLevelSection.id = "most-recent-degree";
+    degreeLevelSection.innerHTML = `
     <div class="input-group hidden-entry">
       <div class="input-wrapper">
         <label for="qualification" class="req-input">Kvalifikacija</label>
@@ -820,7 +818,9 @@ const getPriorEducation = () => {
     </div>    
       `;
     }
-    document.getElementById("degree-finishing-date").appendChild(div);
+    document
+      .getElementById("degree-finishing-date")
+      .appendChild(degreeLevelSection);
   }
 };
 
