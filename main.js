@@ -481,9 +481,12 @@ const hideEducationFields = () => {
     document.getElementById("user-education-data").remove();
 };
 
-const mutateObject = (curId, newName, labelId) => {
-  document.getElementById(curId).name = newName;
-  document.getElementById(curId).value = "";
+const mutateElement = (curId, newName, labelId) => {
+  let element = document.getElementById(curId);
+  element.name = newName;
+  element.value = "";
+  element.classList.remove("invalid");
+  element.parentElement.children[2].textContent = "";
   document.getElementById(labelId).innerHTML = newName;
 };
 
@@ -491,7 +494,7 @@ const showWorkFields = () => {
   if (document.getElementById("user-work-experience"))
     document.getElementById("user-work-experience").remove();
 
-  mutateObject(
+  mutateElement(
     "work-experience-textarea",
     "Darbo pareigos",
     "work-experience-label"
@@ -609,7 +612,7 @@ const hideWorkFields = () => {
   if (document.getElementById("user-work-experience"))
     document.getElementById("user-work-experience").remove();
 
-  mutateObject(
+  mutateElement(
     "work-experience-textarea",
     "Nedarbo priežastis",
     "work-experience-label"
