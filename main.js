@@ -496,7 +496,7 @@ const showWorkFields = () => {
   );
 
   let userGender =
-    data[sections[0]]["lytis"] === "vyras" ? "Tėvystės" : "Motinystės";
+    data[sections[0]]["Lytis"] === "vyras" ? "Tėvystės" : "Motinystės";
 
   var workSection = document.createElement("div");
   workSection.id = `user-work-experience`;
